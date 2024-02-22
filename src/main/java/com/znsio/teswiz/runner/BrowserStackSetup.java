@@ -86,14 +86,12 @@ class BrowserStackSetup {
 
     static MutableCapabilities updateBrowserStackCapabilities(MutableCapabilities capabilities) {
 
-        String authenticationKey = Setup.getFromConfigs(Setup.CLOUD_KEY);
         String platformName = Platform.web.name();
         String capabilityFile = Setup.getFromConfigs(Setup.CAPS);
 
         Map<String, Map> loadedCapabilityFile = JsonFile.loadJsonFile(capabilityFile);
         Map loadedPlatformCapability = loadedCapabilityFile.get(platformName);
 
-        String browserStackLocalIdentifier = Randomizer.randomize(10);
         String subsetOfLogDir = Setup.getFromConfigs(Setup.LOG_DIR).replace("/", "")
                                      .replace("\\", "");
 
@@ -108,13 +106,7 @@ class BrowserStackSetup {
 
         browserstackOptions.put("sessionName", Runner.getTestExecutionContext(Thread.currentThread().getId()).getTestName());
         if(Setup.getBooleanValueFromConfigs(Setup.CLOUD_USE_LOCAL_TESTING)) {
-            LOGGER.info(String.format(
-                    "CLOUD_USE_LOCAL_TESTING=true. Setting up BrowserStackLocal testing using " + "identified: '%s'",
-                    browserStackLocalIdentifier));
-            startBrowserStackLocal(authenticationKey, browserStackLocalIdentifier);
             browserstackOptions.put(ACCEPT_INSECURE_CERTS, "true");
-            browserstackOptions.put("local", "true");
-            browserstackOptions.put("localIdentifier", browserStackLocalIdentifier);
         }
         capabilities.setCapability("bstack:options", browserstackOptions);
 
