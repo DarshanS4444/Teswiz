@@ -542,6 +542,11 @@ class Setup {
             configs.put(APP_PATH, configs.get(BROWSER));
             configs.put(EXECUTED_ON, "Local Browsers");
             setupListenersForWebOrAPIExecution(webCukeArgs);
+            if (Setup.getBooleanValueFromConfigs(RUN_IN_CI)) {
+                DeviceSetup.setupCloudExecution();
+            } else {
+                LocalDevicesSetup.setupLocalExecution();
+            }
         } else if (currentPlatform.equals(Platform.electron)) {
             configs.put(APP_PATH, configs.get(BROWSER));
             configs.put(EXECUTED_ON, "Local Electron Application");

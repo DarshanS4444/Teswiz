@@ -338,11 +338,6 @@ class DeviceSetup {
         if (Setup.getPlatform().equals(Platform.windows)) {
             verifyAppExistsAtMentionedPath();
             fetchWindowsAppVersion();
-            if (Setup.getBooleanValueFromConfigs(RUN_IN_CI)) {
-                setupCloudExecution();
-            } else {
-                LocalDevicesSetup.setupLocalExecution();
-            }
             windowsCukeArgs.add(PLUGIN);
             windowsCukeArgs.add(CUCUMBER_SCENARIO_LISTENER);
             windowsCukeArgs.add(PLUGIN);
